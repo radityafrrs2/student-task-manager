@@ -1,27 +1,38 @@
 # 🎓 Student Task Manager
 
-Simple web application untuk membantu mahasiswa mengelola tugas kuliah dan deadline dengan lebih rapi.
+Student Task Manager adalah aplikasi web sederhana untuk membantu mahasiswa mengelola tugas kuliah dan deadline dalam satu tempat.
 
-## ✨ Features
+Project ini dibuat sebagai latihan penerapan dasar Python, Flask, HTML, dan CSS.
 
-- ➕ Tambah tugas
+## ✨ Fitur
+
+- ➕ Menambahkan tugas
 - 📋 Melihat daftar tugas
 - 🔄 Mengubah status tugas
 - 🗑️ Menghapus tugas
-- 📅 Menentukan deadline tugas
-- 📱 Tampilan responsive
+- 📅 Menyimpan deadline tugas
+- 🌐 Bisa diakses melalui website
 
-## 🛠️ Technologies
+## 🛠️ Teknologi
 
 - Python
 - Flask
 - HTML
 - CSS
 - Git & GitHub
+- PythonAnywhere
 
-## 🚀 How to Run
+## 📂 Struktur Project
 
-### 1. Clone repository
-
-```bash
-git clone https://github.com/radityafrrs2/student-task-manager.git
+```text
+Student Task Manager/
+│
+├── Student Task Manager.py
+├── requirements.txt
+├── README.md
+│
+├── templates/
+│   └── index.html
+│
+└── static/
+    └── style.css
