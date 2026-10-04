@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Task Manager</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div>
+                <h1>🎓 Student Task Manager</h1>
+
+                <p class="subtitle">
+                    Kelola tugas kuliahmu dengan lebih rapi
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="add-button"
+                onclick="bukaForm()"
+            >
+                ➕ Tambah Tugas
+            </button>
+
+        </div>
+
+
+        <div class="section-title">
+
+            <div>
+                <h2>📋 Daftar Tugas</h2>
+
+                <p class="task-count">
+                    {% if tasks %}
+                        {{ tasks|length }} tugas terdaftar
+                    {% else %}
+                        Belum ada tugas
+                    {% endif %}
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if tasks %}
+
+            <div class="task-list">
+
+                {% for task in tasks %}
+
+                    <div class="task-card">
+
+                        <div class="task-info">
+
+                            <div class="task-title-row">
+
+                                <h3>{{ task.nama }}</h3>
+
+                                {% if task.status == "Selesai" %}
+
+                                    <span class="status-badge selesai">
+                                        ✓ Selesai
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-badge belum">
+                                        • Belum Selesai
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="task-details">
+
+                                <span>
+                                    📚 {{ task.matkul }}
+                                </span>
+
+                                <span>
+                                    📅 {{ task.deadline }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="task-buttons">
+
+                            <form
+                                action="/status/{{ loop.index0 }}"
+                                method="POST"
+                            >
+                                <button
+                                    type="submit"
+                                    class="status-button"
+                                >
+                                    🔄 Ubah Status
+                                </button>
+                            </form>
+
+
+                            <form
+                                action="/hapus/{{ loop.index0 }}"
+                                method="POST"
+                            >
+                                <button
+                                    type="submit"
+                                    class="delete-button"
+                                >
+                                    🗑️ Hapus
+                                </button>
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📭
+                </div>
+
+                <h3>Belum ada tugas</h3>
+
+                <p>
+                    Tambahkan tugas pertamamu untuk mulai mengatur deadline
+                </p>
+
+                <button
+                    type="button"
+                    class="empty-button"
+                    onclick="bukaForm()"
+                >
+                    ➕ Tambah Tugas
+                </button>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- MODAL TAMBAH TUGAS -->
+
+    <div id="formModal" class="modal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h2>➕ Tambah Tugas</h2>
+
+                    <p>
+                        Masukkan detail tugas kuliahmu
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="close-button"
+                    onclick="tutupForm()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form action="/tambah" method="POST">
+
+                <label for="nama">
+                    Nama Tugas
+                </label>
+
+                <input
+                    type="text"
+                    id="nama"
+                    name="nama"
+                    placeholder="Contoh: Tugas Python"
+                    required
+                >
+
+
+                <label for="matkul">
+                    Mata Kuliah
+                </label>
+
+                <input
+                    type="text"
+                    id="matkul"
+                    name="matkul"
+                    placeholder="Contoh: Algoritma & Pemrograman"
+                    required
+                >
+
+
+                <label for="deadline">
+                    Deadline
+                </label>
+
+                <input
+                    type="date"
+                    id="deadline"
+                    name="deadline"
+                    required
+                >
+
+
+                <div class="form-buttons">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        onclick="tutupForm()"
+                    >
+                        Batal
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        Tambah Tugas
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function bukaForm() {
+            document.getElementById("formModal").style.display = "flex";
+        }
+
+
+        function tutupForm() {
+            document.getElementById("formModal").style.display = "none";
+        }
+
+
+        window.onclick = function(event) {
+
+            const modal = document.getElementById("formModal");
+
+            if (event.target === modal) {
+                tutupForm();
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
