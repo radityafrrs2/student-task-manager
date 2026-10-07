@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import os
+import json
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -11,7 +12,29 @@ app = Flask(
 )
 
 
-tasks = []
+TASKS_FILE = os.path.join(BASE_DIR, "tasks.json")
+
+
+def load_tasks():
+    if not os.path.exists(TASKS_FILE):
+        return []
+
+    try:
+        with open(TASKS_FILE, "r", encoding="utf-8") as file:
+            return json.load(file)
+    except (json.JSONDecodeError, FileNotFoundError):
+        return []
+
+
+def save_tasks():
+    with open(TASKS_FILE, "w", encoding="utf-8") as file:
+        json.dump(tasks, file, ensure_ascii=False, indent=4)
+
+
+tasks = load_tasks()
+
+print("TASKS FILE:", TASKS_FILE)
+print("TASKS:", tasks)
 
 
 @app.route("/")
@@ -32,6 +55,8 @@ def tambah():
         "status": "Belum Dikerjakan"
     })
 
+    save_tasks()
+
     return redirect("/")
 
 
@@ -48,6 +73,8 @@ def ubah_status(index):
         else:
             tasks[index]["status"] = "Belum Dikerjakan"
 
+        save_tasks()
+
     return redirect("/")
 
 
@@ -55,6 +82,7 @@ def ubah_status(index):
 def hapus_tugas(index):
     if 0 <= index < len(tasks):
         tasks.pop(index)
+        save_tasks()
 
     return redirect("/")
 
