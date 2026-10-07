@@ -72,10 +72,16 @@
                                         ✓ Selesai
                                     </span>
 
+                                {% elif task.status == "Sedang Dikerjakan" %}
+
+                                    <span class="status-badge sedang">
+                                        ◐ Sedang Dikerjakan
+                                    </span>
+
                                 {% else %}
 
                                     <span class="status-badge belum">
-                                        • Belum Selesai
+                                        • Belum Dikerjakan
                                     </span>
 
                                 {% endif %}
@@ -123,6 +129,7 @@
                                 >
                                     🗑️ Hapus
                                 </button>
+
                             </form>
 
                         </div>

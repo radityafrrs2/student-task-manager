@@ -224,6 +224,13 @@ h1 {
 
 
 .status-badge.belum {
+    background: #fef2f2;
+
+    color: #b91c1c;
+}
+
+
+.status-badge.sedang {
     background: #fef3c7;
 
     color: #92400e;

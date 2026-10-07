@@ -29,7 +29,7 @@ def tambah():
         "nama": nama,
         "matkul": matkul,
         "deadline": deadline,
-        "status": "Belum Selesai"
+        "status": "Belum Dikerjakan"
     })
 
     return redirect("/")
@@ -39,10 +39,14 @@ def tambah():
 def ubah_status(index):
     if 0 <= index < len(tasks):
 
-        if tasks[index]["status"] == "Belum Selesai":
+        if tasks[index]["status"] == "Belum Dikerjakan":
+            tasks[index]["status"] = "Sedang Dikerjakan"
+
+        elif tasks[index]["status"] == "Sedang Dikerjakan":
             tasks[index]["status"] = "Selesai"
+
         else:
-            tasks[index]["status"] = "Belum Selesai"
+            tasks[index]["status"] = "Belum Dikerjakan"
 
     return redirect("/")
 
