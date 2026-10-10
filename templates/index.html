@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -13,6 +14,8 @@
 <body>
 
     <div class="container">
+
+        <!-- HEADER -->
 
         <div class="header">
 
@@ -35,6 +38,39 @@
         </div>
 
 
+        <!-- STATISTIK TUGAS -->
+
+        <section class="statistics">
+
+            <div class="stat-card stat-total">
+                <span class="stat-label">📋 Total Tugas</span>
+                <h2>{{ statistik.total }}</h2>
+                <p>Semua tugas</p>
+            </div>
+
+            <div class="stat-card stat-belum">
+                <span class="stat-label">🔴 Belum Dikerjakan</span>
+                <h2>{{ statistik.belum }}</h2>
+                <p>Perlu diselesaikan</p>
+            </div>
+
+            <div class="stat-card stat-sedang">
+                <span class="stat-label">🟡 Sedang Dikerjakan</span>
+                <h2>{{ statistik.sedang }}</h2>
+                <p>Sedang dalam proses</p>
+            </div>
+
+            <div class="stat-card stat-selesai">
+                <span class="stat-label">🟢 Selesai</span>
+                <h2>{{ statistik.selesai }}</h2>
+                <p>Berhasil diselesaikan</p>
+            </div>
+
+        </section>
+
+
+        <!-- JUDUL DAFTAR TUGAS -->
+
         <div class="section-title">
 
             <div>
@@ -51,6 +87,8 @@
 
         </div>
 
+
+        <!-- DAFTAR TUGAS -->
 
         {% if tasks %}
 
@@ -129,7 +167,6 @@
                                 >
                                     🗑️ Hapus
                                 </button>
-
                             </form>
 
                         </div>
