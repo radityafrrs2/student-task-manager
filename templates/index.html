@@ -1,46 +1,36 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Student Task Manager</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-
     <div class="container">
 
-        <!-- HEADER -->
-
         <div class="header">
-
             <div>
                 <h1>🎓 Student Task Manager</h1>
-
                 <p class="subtitle">
                     Kelola tugas kuliahmu dengan lebih rapi
                 </p>
             </div>
 
-            <button
-                type="button"
-                class="add-button"
-                onclick="bukaForm()"
-            >
+            <button type="button"
+                    class="add-button"
+                    onclick="bukaForm()">
                 ➕ Tambah Tugas
             </button>
-
         </div>
 
-
-        <!-- STATISTIK TUGAS -->
-
+        <!-- STATISTIK -->
         <section class="statistics">
-
             <div class="stat-card stat-total">
                 <span class="stat-label">📋 Total Tugas</span>
                 <h2>{{ statistik.total }}</h2>
@@ -64,19 +54,15 @@
                 <h2>{{ statistik.selesai }}</h2>
                 <p>Berhasil diselesaikan</p>
             </div>
-
         </section>
 
-
-        <!-- JUDUL DAFTAR TUGAS -->
-
+        <!-- JUDUL DAFTAR -->
         <div class="section-title">
-
             <div>
                 <h2>📋 Daftar Tugas</h2>
 
                 <p class="task-count">
-                    {% if query %}
+                    {% if query or status_filter %}
                         Menampilkan {{ displayed_tasks|length }}
                         dari {{ tasks|length }} tugas
                     {% elif tasks %}
@@ -86,12 +72,9 @@
                     {% endif %}
                 </p>
             </div>
-
         </div>
 
-
-        <!-- PENCARIAN TUGAS -->
-
+        <!-- PENCARIAN DAN FILTER STATUS -->
         <form action="/" method="GET" class="search-form">
 
             <div class="search-input-wrapper">
@@ -107,212 +90,169 @@
                 >
             </div>
 
+            <select
+                name="status"
+                class="status-filter"
+                aria-label="Filter berdasarkan status"
+            >
+                <option value=""
+                    {% if not status_filter %}selected{% endif %}>
+                    Semua Status
+                </option>
+
+                {% for status in daftar_status %}
+                    <option value="{{ status }}"
+                        {% if status_filter == status %}selected{% endif %}>
+                        {{ status }}
+                    </option>
+                {% endfor %}
+            </select>
+
             <button type="submit" class="search-button">
-                Cari
+                Terapkan
             </button>
 
-            {% if query %}
-                <a href="{{ url_for('home') }}" class="reset-search-button">
+            {% if query or status_filter %}
+                <a href="{{ url_for('home') }}"
+                   class="reset-search-button">
                     Reset
                 </a>
             {% endif %}
-
         </form>
 
-
         <!-- DAFTAR TUGAS -->
-
         {% if displayed_tasks %}
-
             <div class="task-list">
 
                 {% for item in displayed_tasks %}
-
                     {% set task = item["task"] %}
                     {% set task_index = item["index"] %}
 
                     <div class="task-card">
-
                         <div class="task-info">
-
                             <div class="task-title-row">
-
                                 <h3>{{ task.nama }}</h3>
 
                                 {% if task.status == "Selesai" %}
-
                                     <span class="status-badge selesai">
                                         ✓ Selesai
                                     </span>
-
                                 {% elif task.status == "Sedang Dikerjakan" %}
-
                                     <span class="status-badge sedang">
                                         ◐ Sedang Dikerjakan
                                     </span>
-
                                 {% else %}
-
                                     <span class="status-badge belum">
                                         • Belum Dikerjakan
                                     </span>
-
                                 {% endif %}
-
                             </div>
-
 
                             <div class="task-details">
-
-                                <span>
-                                    📚 {{ task.matkul }}
-                                </span>
-
-                                <span>
-                                    📅 {{ task.deadline }}
-                                </span>
-
+                                <span>📚 {{ task.matkul }}</span>
+                                <span>📅 {{ task.deadline }}</span>
                             </div>
-
                         </div>
 
-
                         <div class="task-buttons">
-
                             <form
                                 action="{{ url_for('ubah_status', index=task_index) }}"
                                 method="POST"
                             >
-                                <input
-                                    type="hidden"
-                                    name="q"
-                                    value="{{ query }}"
-                                >
+                                <input type="hidden"
+                                       name="q"
+                                       value="{{ query }}">
 
-                                <button
-                                    type="submit"
-                                    class="status-button"
-                                >
+                                <input type="hidden"
+                                       name="status"
+                                       value="{{ status_filter }}">
+
+                                <button type="submit"
+                                        class="status-button">
                                     🔄 Ubah Status
                                 </button>
                             </form>
-
 
                             <form
                                 action="{{ url_for('hapus_tugas', index=task_index) }}"
                                 method="POST"
                                 onsubmit="return confirm('Yakin ingin menghapus tugas ini?')"
                             >
-                                <input
-                                    type="hidden"
-                                    name="q"
-                                    value="{{ query }}"
-                                >
+                                <input type="hidden"
+                                       name="q"
+                                       value="{{ query }}">
 
-                                <button
-                                    type="submit"
-                                    class="delete-button"
-                                >
+                                <input type="hidden"
+                                       name="status"
+                                       value="{{ status_filter }}">
+
+                                <button type="submit"
+                                        class="delete-button">
                                     🗑️ Hapus
                                 </button>
                             </form>
-
                         </div>
-
                     </div>
-
                 {% endfor %}
 
             </div>
 
-        {% elif query %}
-
-            <!-- HASIL PENCARIAN KOSONG -->
-
+        {% elif query or status_filter %}
             <div class="empty">
-
-                <div class="empty-icon">
-                    🔎
-                </div>
-
+                <div class="empty-icon">🔎</div>
                 <h3>Tugas tidak ditemukan</h3>
 
                 <p>
-                    Tidak ada tugas dengan nama yang cocok dengan
-                    "{{ query }}". Coba kata kunci lainnya.
+                    Tidak ada tugas yang cocok dengan pencarian
+                    atau status yang dipilih. Coba ubah filter.
                 </p>
 
-                <a href="{{ url_for('home') }}" class="empty-link">
+                <a href="{{ url_for('home') }}"
+                   class="empty-link">
                     Tampilkan Semua Tugas
                 </a>
-
             </div>
 
         {% else %}
-
-            <!-- BELUM ADA TUGAS -->
-
             <div class="empty">
-
-                <div class="empty-icon">
-                    📭
-                </div>
-
+                <div class="empty-icon">📭</div>
                 <h3>Belum ada tugas</h3>
 
                 <p>
-                    Tambahkan tugas pertamamu untuk mulai mengatur deadline
+                    Tambahkan tugas pertamamu untuk mulai
+                    mengatur deadline
                 </p>
 
-                <button
-                    type="button"
-                    class="empty-button"
-                    onclick="bukaForm()"
-                >
+                <button type="button"
+                        class="empty-button"
+                        onclick="bukaForm()">
                     ➕ Tambah Tugas
                 </button>
-
             </div>
-
         {% endif %}
 
     </div>
 
-
     <!-- MODAL TAMBAH TUGAS -->
-
     <div id="formModal" class="modal">
-
         <div class="modal-content">
 
             <div class="modal-header">
-
                 <div>
                     <h2>➕ Tambah Tugas</h2>
-
-                    <p>
-                        Masukkan detail tugas kuliahmu
-                    </p>
+                    <p>Masukkan detail tugas kuliahmu</p>
                 </div>
 
-                <button
-                    type="button"
-                    class="close-button"
-                    onclick="tutupForm()"
-                    aria-label="Tutup formulir"
-                >
+                <button type="button"
+                        class="close-button"
+                        onclick="tutupForm()"
+                        aria-label="Tutup formulir">
                     ×
                 </button>
-
             </div>
 
-
             <form action="/tambah" method="POST">
-
-                <label for="nama">
-                    Nama Tugas
-                </label>
-
+                <label for="nama">Nama Tugas</label>
                 <input
                     type="text"
                     id="nama"
@@ -321,11 +261,7 @@
                     required
                 >
 
-
-                <label for="matkul">
-                    Mata Kuliah
-                </label>
-
+                <label for="matkul">Mata Kuliah</label>
                 <input
                     type="text"
                     id="matkul"
@@ -334,11 +270,7 @@
                     required
                 >
 
-
-                <label for="deadline">
-                    Deadline
-                </label>
-
+                <label for="deadline">Deadline</label>
                 <input
                     type="date"
                     id="deadline"
@@ -346,45 +278,30 @@
                     required
                 >
 
-
                 <div class="form-buttons">
-
-                    <button
-                        type="button"
-                        class="cancel-button"
-                        onclick="tutupForm()"
-                    >
+                    <button type="button"
+                            class="cancel-button"
+                            onclick="tutupForm()">
                         Batal
                     </button>
 
-
-                    <button
-                        type="submit"
-                        class="submit-button"
-                    >
+                    <button type="submit"
+                            class="submit-button">
                         Tambah Tugas
                     </button>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
 
-
     <script>
-
         function bukaForm() {
             document.getElementById("formModal").style.display = "flex";
         }
 
-
         function tutupForm() {
             document.getElementById("formModal").style.display = "none";
         }
-
 
         window.onclick = function(event) {
             const modal = document.getElementById("formModal");
@@ -394,15 +311,12 @@
             }
         };
 
-
         window.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
                 tutupForm();
             }
         });
-
     </script>
 
 </body>
-
 </html>

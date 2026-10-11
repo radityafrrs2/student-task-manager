@@ -1,7 +1,7 @@
+
 from flask import Flask, render_template, request, redirect, url_for
 import os
 import json
-
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -12,6 +12,12 @@ app = Flask(
 )
 
 TASKS_FILE = os.path.join(BASE_DIR, "tasks.json")
+
+DAFTAR_STATUS = [
+    "Belum Dikerjakan",
+    "Sedang Dikerjakan",
+    "Selesai"
+]
 
 
 def load_tasks():
@@ -36,10 +42,13 @@ tasks = load_tasks()
 
 @app.route("/")
 def home():
-    # Ambil kata pencarian dari URL
     query = request.args.get("q", "").strip()
+    status_filter = request.args.get("status", "").strip()
 
-    # Statistik tetap dihitung dari seluruh tugas
+    if status_filter not in DAFTAR_STATUS:
+        status_filter = ""
+
+    # Statistik dihitung dari seluruh tugas
     statistik = {
         "total": len(tasks),
         "belum": sum(
@@ -56,14 +65,21 @@ def home():
         )
     }
 
-    # Simpan indeks asli supaya tombol tetap mengarah
-    # ke tugas yang benar walaupun hasil pencarian difilter
+    # Gabungkan pencarian nama dan filter status
     displayed_tasks = []
 
     for index, task in enumerate(tasks):
-        nama_tugas = task.get("nama", "")
+        nama_tugas = str(task.get("nama", ""))
+        status_tugas = task.get(
+            "status", "Belum Dikerjakan"
+        )
 
-        if query.casefold() in nama_tugas.casefold():
+        cocok_nama = query.casefold() in nama_tugas.casefold()
+        cocok_status = (
+            not status_filter or status_tugas == status_filter
+        )
+
+        if cocok_nama and cocok_status:
             displayed_tasks.append({
                 "task": task,
                 "index": index
@@ -74,15 +90,17 @@ def home():
         tasks=tasks,
         displayed_tasks=displayed_tasks,
         statistik=statistik,
-        query=query
+        query=query,
+        status_filter=status_filter,
+        daftar_status=DAFTAR_STATUS
     )
 
 
 @app.route("/tambah", methods=["POST"])
 def tambah():
-    nama = request.form["nama"].strip()
-    matkul = request.form["matkul"].strip()
-    deadline = request.form["deadline"]
+    nama = request.form.get("nama", "").strip()
+    matkul = request.form.get("matkul", "").strip()
+    deadline = request.form.get("deadline", "").strip()
 
     if nama and matkul and deadline:
         tasks.append({
@@ -97,10 +115,24 @@ def tambah():
     return redirect(url_for("home"))
 
 
+def redirect_ke_daftar(query, status_filter):
+    parameter = {}
+
+    if query:
+        parameter["q"] = query
+
+    if status_filter in DAFTAR_STATUS:
+        parameter["status"] = status_filter
+
+    return redirect(url_for("home", **parameter))
+
+
 @app.route("/status/<int:index>", methods=["POST"])
 def ubah_status(index):
     if 0 <= index < len(tasks):
-        status = tasks[index].get("status", "Belum Dikerjakan")
+        status = tasks[index].get(
+            "status", "Belum Dikerjakan"
+        )
 
         if status == "Belum Dikerjakan":
             tasks[index]["status"] = "Sedang Dikerjakan"
@@ -112,11 +144,9 @@ def ubah_status(index):
         save_tasks()
 
     query = request.form.get("q", "").strip()
+    status_filter = request.form.get("status", "").strip()
 
-    if query:
-        return redirect(url_for("home", q=query))
-
-    return redirect(url_for("home"))
+    return redirect_ke_daftar(query, status_filter)
 
 
 @app.route("/hapus/<int:index>", methods=["POST"])
@@ -126,11 +156,9 @@ def hapus_tugas(index):
         save_tasks()
 
     query = request.form.get("q", "").strip()
+    status_filter = request.form.get("status", "").strip()
 
-    if query:
-        return redirect(url_for("home", q=query))
-
-    return redirect(url_for("home"))
+    return redirect_ke_daftar(query, status_filter)
 
 
 if __name__ == "__main__":
