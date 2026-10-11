@@ -1,140 +1,184 @@
 # 🎓 Student Task Manager
 
-Student Task Manager adalah aplikasi web sederhana yang dibuat untuk membantu mahasiswa mengelola tugas kuliah, memantau progres pengerjaan, dan menyimpan deadline dalam satu tempat.
+### Manage your tasks. Track your progress. Stay organized.
 
-Project ini dikembangkan sebagai latihan penerapan dasar pemrograman Python, pengembangan web menggunakan Flask, pengelolaan data menggunakan JSON, serta penggunaan Git, GitHub, dan deployment web melalui PythonAnywhere.
+Aplikasi pengelola tugas kuliah berbasis web yang dirancang untuk membantu mahasiswa mencatat tugas, memantau deadline, dan mengelola progres pengerjaan dalam satu tempat.
 
-## ✨ Fitur
+Student Task Manager dikembangkan sebagai proyek pembelajaran untuk menerapkan Python, Flask, HTML, CSS, pengelolaan data menggunakan JSON, version control dengan Git, serta deployment aplikasi web.
 
-- ➕ Menambahkan tugas kuliah
-- 📋 Melihat daftar tugas yang tersimpan
-- 🔴 Menampilkan status **Belum Dikerjakan**
-- 🟡 Menampilkan status **Sedang Dikerjakan**
-- 🟢 Menampilkan status **Selesai**
-- 🔄 Mengubah status pengerjaan tugas
-- 🗑️ Menghapus tugas
-- 📅 Menyimpan deadline tugas
-- 💾 Menyimpan data tugas menggunakan file JSON
-- 🔒 Mempertahankan data tugas setelah aplikasi di-restart melalui penyimpanan JSON
-- 📊 Menampilkan dashboard statistik tugas
-- 📈 Menghitung total tugas, tugas yang belum dikerjakan, sedang dikerjakan, dan selesai
-- 📱 Menggunakan tampilan responsif untuk berbagai ukuran layar
-- 🌐 Menyediakan akses aplikasi melalui website yang telah di-deploy
+<p align="center">
+  <a href="https://radityafrrs2.pythonanywhere.com/">
+    <img src="https://img.shields.io/badge/🚀_Live_Demo-Open_App-2563EB?style=for-the-badge" alt="Live Demo">
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-Web_Framework-000000?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/Status-Active_Development-16A34A?style=for-the-badge" alt="Development Status">
+</p>
 
-## 📊 Dashboard Statistik
+---
 
-Dashboard statistik memberikan gambaran singkat mengenai kondisi tugas yang tersimpan di aplikasi.
+## 🌐 Live Demo
 
-Informasi yang ditampilkan meliputi:
+**Coba aplikasinya langsung tanpa perlu instalasi!**
 
-- **Total Tugas:** jumlah seluruh tugas yang tersimpan
-- **Belum Dikerjakan:** jumlah tugas yang belum mulai dikerjakan
-- **Sedang Dikerjakan:** jumlah tugas yang sedang dalam proses pengerjaan
-- **Selesai:** jumlah tugas yang telah diselesaikan
+🔗 **[Student Task Manager — Open Website](https://radityafrrs2.pythonanywhere.com/)**
 
-Nilai statistik ditampilkan berdasarkan data tugas yang tersimpan pada aplikasi.
+## ✨ Key Features
 
-## 🛠️ Teknologi
+| Fitur | Deskripsi |
+|---|---|
+| ➕ **Add Tasks** | Menambahkan tugas dengan nama, mata kuliah, dan deadline |
+| 📋 **Task List** | Melihat daftar tugas yang tersimpan |
+| 🔎 **Task Search** | Mencari tugas berdasarkan nama tugas |
+| 🏷️ **Status Filter** | Menyaring tugas berdasarkan status pengerjaan |
+| 🔄 **Progress Tracking** | Mengubah status tugas sesuai progres pengerjaan |
+| 📊 **Statistics Dashboard** | Melihat ringkasan jumlah dan kondisi seluruh tugas |
+| 🗑️ **Delete Tasks** | Menghapus tugas yang tidak lagi diperlukan |
+| 💾 **JSON Persistence** | Menyimpan data tugas agar tetap tersedia setelah aplikasi dimulai ulang |
+| 📱 **Responsive Interface** | Menyesuaikan tampilan untuk berbagai ukuran layar |
 
-- **Python** — bahasa pemrograman utama
-- **Flask** — framework untuk membangun aplikasi web
-- **HTML5** — struktur halaman web
-- **CSS3** — desain dan tata letak antarmuka
-- **JSON** — penyimpanan data tugas
-- **Git** — version control
-- **GitHub** — penyimpanan repository dan pengelolaan versi kode
-- **PythonAnywhere** — platform deployment aplikasi web
+### 🚦 Task Status
 
-## 📂 Struktur Project
+- 🔴 **Belum Dikerjakan** — tugas belum mulai dikerjakan
+- 🟡 **Sedang Dikerjakan** — tugas sedang dalam proses pengerjaan
+- 🟢 **Selesai** — tugas telah diselesaikan
+
+### 📊 Statistics Dashboard
+
+Dashboard memberikan gambaran cepat tentang beban tugas melalui empat metrik utama:
+
+- **Total Tugas** — seluruh tugas yang tersimpan
+- **Belum Dikerjakan** — tugas yang belum mulai dikerjakan
+- **Sedang Dikerjakan** — tugas yang sedang diproses
+- **Selesai** — tugas yang telah diselesaikan
+
+Statistik dihitung berdasarkan data tugas yang tersimpan pada aplikasi.
+
+## 🖥️ Built With
+
+| Teknologi | Peran |
+|---|---|
+| 🐍 **Python** | Logika dan pemrosesan aplikasi |
+| ⚗️ **Flask** | Routing dan pengelolaan request web |
+| 🌐 **HTML5** | Struktur halaman |
+| 🎨 **CSS3** | Styling dan layout antarmuka |
+| 📦 **JSON** | Penyimpanan data tugas |
+| 🔧 **Git** | Version control |
+| 🐙 **GitHub** | Hosting repository dan kolaborasi kode |
+| ☁️ **PythonAnywhere** | Deployment aplikasi web |
+
+## 📂 Project Structure
 
 ```text
-Student Task Manager/
-│
-├── Student Task Manager.py
-├── tasks.json
-├── requirements.txt
-├── README.md
-├── DAILY_PROGRESS.md
-│
+student-task-manager/
+├── Student Task Manager.py   # Main Flask application
+├── tasks.json                # Task data storage
+├── requirements.txt          # Python dependencies
+├── README.md                 # Project documentation
+├── DAILY_PROGRESS.md         # Development progress log
 ├── templates/
-│   └── index.html
-│
+│   └── index.html             # Main page template
 └── static/
-    └── style.css
+    └── style.css              # Application styling
 ```
 
-## ⚙️ Persyaratan
+## ⚙️ Getting Started
 
-Sebelum menjalankan aplikasi secara lokal, pastikan perangkat sudah memiliki:
+Ikuti langkah berikut untuk menjalankan aplikasi di perangkat lokal.
+
+### 1. Prerequisites
+
+Pastikan perangkat sudah memiliki:
 
 - Python
-- pip untuk mengelola package Python
-- Git (opsional, jika ingin menggunakan version control)
+- pip
+- Git (opsional)
 
-## 🚀 Cara Menjalankan Project
-
-### 1. Clone Repository
+### 2. Clone Repository
 
 ```bash
 git clone https://github.com/radityafrrs2/student-task-manager.git
 ```
 
-### 2. Masuk ke Folder Project
+### 3. Navigate to Project Directory
 
 ```bash
 cd student-task-manager
 ```
 
-### 3. Instal Dependencies
+### 4. Install Dependencies
 
 ```bash
 py -m pip install -r requirements.txt
 ```
 
-Jika perintah `py` tidak tersedia, gunakan perintah `python` sesuai konfigurasi Python pada perangkat.
+Jika perintah `py` tidak tersedia, gunakan:
 
-### 4. Jalankan Aplikasi
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 5. Run the Application
 
 ```bash
 py "Student Task Manager.py"
 ```
 
-Buka alamat lokal yang ditampilkan oleh Flask di terminal untuk mengakses aplikasi.
+Atau, jika menggunakan perintah `python`:
 
-## 🌐 Deployment
+```bash
+python "Student Task Manager.py"
+```
 
-Aplikasi ini telah di-deploy menggunakan PythonAnywhere.
+### 6. Open in Browser
 
-**Website:** https://radityafrrs2.pythonanywhere.com/
+Buka alamat lokal berikut:
 
-Repository GitHub digunakan untuk menyimpan kode sumber dan mengelola perubahan aplikasi.
+```text
+http://127.0.0.1:5000/
+```
 
-## 🔄 Pengembangan Project
+## 💾 Data Storage
 
-Pengembangan dilakukan secara bertahap dengan menambahkan fitur, memperbaiki tampilan, menguji fungsi aplikasi, dan memperbarui repository.
+Aplikasi menggunakan file `tasks.json` untuk menyimpan daftar tugas dalam format JSON.
 
-Setiap perubahan yang telah diperiksa dapat disimpan menggunakan Git, dikirim ke GitHub, kemudian diterapkan ke website melalui PythonAnywhere.
+Data mencakup informasi seperti nama tugas, mata kuliah, deadline, dan status pengerjaan. Data disimpan ke file saat operasi penambahan, perubahan status, atau penghapusan dilakukan.
 
-Catatan perkembangan harian project disimpan secara terpisah pada file `DAILY_PROGRESS.md`.
+> **Catatan:** `tasks.json` merupakan file data lokal. Jika ingin mempertahankan data tugas pribadi, buat cadangan file tersebut sebelum melakukan perubahan besar pada proyek.
 
-## 🎯 Tujuan Project
+## 🚀 Development & Deployment
 
-Project ini bertujuan untuk:
+Pengembangan Student Task Manager dilakukan secara bertahap melalui siklus:
 
-- Memahami dasar pengembangan aplikasi web menggunakan Python dan Flask
-- Mempraktikkan penggunaan HTML dan CSS untuk membangun antarmuka
-- Memahami penyimpanan dan pengolahan data menggunakan JSON
-- Mempelajari penggunaan Git dan GitHub untuk version control
-- Memahami proses deployment aplikasi web
-- Mengembangkan aplikasi sederhana yang relevan dengan kebutuhan mahasiswa
+1. **Plan** — menentukan fitur yang akan dikembangkan
+2. **Build** — mengimplementasikan perubahan pada kode
+3. **Test** — memeriksa fungsi dan tampilan aplikasi
+4. **Version Control** — menyimpan perubahan menggunakan Git dan GitHub
+5. **Deploy** — memperbarui versi aplikasi pada PythonAnywhere
+
+Riwayat perkembangan dan fitur yang telah dikerjakan dicatat dalam [`DAILY_PROGRESS.md`](DAILY_PROGRESS.md).
+
+## 🎯 Project Goals
+
+Proyek ini dibuat untuk memperkuat pemahaman mengenai:
+
+- Pengembangan aplikasi web menggunakan Python dan Flask
+- Integrasi backend dengan template HTML dan styling CSS
+- Pengolahan serta penyimpanan data menggunakan JSON
+- Penerapan routing dan HTTP request pada Flask
+- Penggunaan Git dan GitHub untuk mengelola perubahan kode
+- Deployment aplikasi web ke lingkungan hosting
+- Pengembangan solusi digital sederhana untuk kebutuhan mahasiswa
 
 ## 👨‍💻 Developer
 
 **Raditya Farras Azis**
 
 Teknologi Rekayasa Otomasi  
-Sekolah Vokasi, Universitas Diponegoro
+Sekolah Vokasi — Universitas Diponegoro
 
-## 📝 Catatan
+---
 
-Project ini masih dapat dikembangkan dengan penambahan fitur baru sesuai kebutuhan pengguna dan proses pembelajaran.
+<p align="center">
+  <i>Built as a learning project — one feature at a time.</i>
+</p>
